@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 import matrix_ops
@@ -60,4 +62,47 @@ def test_multiply(matrix_a, matrix_b, expected):
 ])
 def test_transpose(matrix, expected):
     actual = matrix_ops.transpose(matrix)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(["dimension", "expected"], [
+    (1, [[1]]),
+    (2, [[1, 0], [0, 1]]),
+    (3, [[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+])
+def test_identity_matrix(dimension, expected):
+    actual = matrix_ops.identity_matrix(dimension)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(["matrix_a", "matrix_b", "expected"], [
+    (MATRIX_3_2, [[1, 0], [1, 0], [0, 1]], [[2, 4], [3, 5], [3, 7]])
+])
+def test_add(matrix_a, matrix_b, expected):
+    actual = matrix_ops.add(matrix_a, matrix_b)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(["matrix", "scalar", "expected"], [
+    (MATRIX_3_2, 2, [[2, 8], [4, 10], [6, 12]])
+])
+def test_multiply_with_scalar(matrix, scalar, expected):
+    actual = matrix_ops.multiply_with_scalar(matrix, scalar)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(["matrix", "dimension"], [
+    (MATRIX_3_2, 2),
+    (MATRIX_2_4, 4)
+])
+def test_multiply_with_identity_right(matrix, dimension):
+    actual = matrix_ops.multiply(matrix, matrix_ops.identity_matrix(dimension))
+    assert actual == matrix
+
+
+@pytest.mark.parametrize(["vector", "expected"], [
+    ([[1, 0]], 1), ([[2, 2]], math.sqrt(2) * 2)
+])
+def test_vector_norm(vector, expected):
+    actual = matrix_ops.vector_norm(vector)
     assert actual == expected
