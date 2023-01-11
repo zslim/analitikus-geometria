@@ -20,7 +20,7 @@ def are_dimensions_compatible(matrix_a, matrix_b):
     return columns_a == rows_b
 
 
-def matrix_multiplication(matrix_a, matrix_b):
+def multiply(matrix_a, matrix_b):
     if not are_dimensions_compatible(matrix_a, matrix_b):
         raise ValueError("Matrices are not compatible")
     result = []
@@ -33,5 +33,17 @@ def matrix_multiplication(matrix_a, matrix_b):
             for j in range(columns_a):
                 result_element += matrix_a[i][j] * matrix_b[j][z]
             result_row.append(result_element)
+        result.append(result_row)
+    return result
+
+
+def transpose(matrix):
+    if not is_matrix(matrix):
+        raise ValueError("Argument is not a matrix")
+    result = []
+    for j in range(len(matrix[0])):
+        result_row = []
+        for i in range(len(matrix)):
+            result_row.append(matrix[i][j])
         result.append(result_row)
     return result
